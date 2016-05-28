@@ -1,0 +1,100 @@
+---
+title: "CodeBook"
+author: "Mohit Kumar"
+date: "May 28, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reshape2)
+activity_labels <- read.table("UCI HAR Dataset/activity_labels.txt")
+activity_labels[,2] <- as.character(activity_labels[,2])
+
+features <- read.table("UCI HAR Dataset/features.txt")
+features[,2] <- as.character(features[,2])
+
+required_features <- grep(".*mean.*|.*std.*", features[,2])
+
+required_features_names <- features[required_features,2]
+required_features_names <- gsub('[-()]', '', required_features_names)
+required_features_names = gsub('-std', 'Std', required_features_names)
+required_features_names = gsub('-mean', 'Mean', required_features_names)
+required_features_names = gsub('^t', 'Time', required_features_names)
+required_features_names = gsub('^f', 'Freq', required_features_names)
+
+
+train <- read.table("UCI HAR Dataset/train/X_train.txt")[required_features]
+train_activities <- read.table("UCI HAR Dataset/train/Y_train.txt")
+train_subjects <- read.table("UCI HAR Dataset/train/subject_train.txt")
+train <- cbind(train_subjects, train_activities, train)
+
+test <- read.table("UCI HAR Dataset/test/X_test.txt")[required_features]
+test_activities <- read.table("UCI HAR Dataset/test/Y_test.txt")
+test_subjects <- read.table("UCI HAR Dataset/test/subject_test.txt")
+test <- cbind(test_subjects, test_activities, test)
+
+```
+
+#### Data for the project was downloaded from the site:
+<https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip>.
+
+#### Data was obtained from the site: 
+<http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones>
+
+The run_analysis.R script performs the following task to clean the data:
+
+**Step 1:** Read X_train.txt, Y_train.txt and subject_train.txt from the "./data/train" folder and store them in train, trainActivities and trainSubjects variables respectively.
+Read X_test.txt, Y_test.txt and subject_test.txt from the "./data/test" folder and store them in test, testActivities and testSubjects variables respectively.
+*Few rows and columns of the loaded datasets are shown here.*
+```{r}
+head(train[,1:5])
+head(train_activities)
+head(train_subjects)
+head(test[,1:5])
+head(test_activities)
+head(test_subjects)
+```
+**Step 2:** Merge the test to train sets to generate  data frame, merge_train_test.
+```{r}
+merge_train_test <- rbind(train, test)
+head(merge_train_test[,1:5])
+```
+
+**Step 3:** Read the features.txt and extracts only the measurements on the mean and standard deviation for each measurement and store it in the variable required_features .Clean the column names of the subset. We remove the "()" symbol in the names, as well as substitute "-mean", "-std","t" and "f" with "Mean", "Standard", "Time" and "Freq" respectively.
+```{r}
+head(required_features)
+head(required_features_names)
+```
+
+**Step 4:** Read the activity_labels.txt and apply descriptive activity names to name the activities in the dataset:
+"walking" "walkingupstairs" "walkingdownstairs" "sitting" "standing" "laying"
+
+Also appropriate labels to the data set with descriptive variable names is applied.
+```{r}
+colnames(merge_train_test) <- c("subject", "activity", required_features_names)
+merge_train_test$activity <- factor(merge_train_test$activity, levels = activity_labels[,1], labels = activity_labels[,2])
+merge_train_test$subject <- as.factor(merge_train_test$subject)
+```
+
+**Step 5:** Create a second independent tidy data set with the average of each measurement for each activity and each subject. The result is saved as merge_train_test.melted, where as before, the first column contains subject IDs, the second column contains activity names, and then the averages, stored in merge_train_test.mean. There are 30 subjects and 6 activities, thus 180 rows in this data set with averages.
+```{r}
+merge_train_test.melted <- melt(merge_train_test, id = c("subject", "activity"))
+merge_train_test.mean <- dcast(merge_train_test.melted, subject + activity ~ variable, mean)
+head(merge_train_test.mean[,1:4])
+```
+
+**Step 6:** Write the result out to "ActivityRecognitionUsingSmartphones.txt" file in current working directory.
+```{r}
+write.table(merge_train_test.mean, "ActivityRecognitionUsingSmartphones.txt", row.names = FALSE, quote = FALSE)
+```
+
+#Structure of the Tidy dataset
+```{r,echo=FALSE}
+str(merge_train_test.mean)
+```
+
+#Summary of the Tidy dataset
+```{r,echo=FALSE}
+summary(merge_train_test.mean)
+```
