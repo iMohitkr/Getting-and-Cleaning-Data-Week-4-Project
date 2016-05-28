@@ -35,10 +35,10 @@ required_features <- grep(".*mean.*|.*std.*", features[,2])
 #to provide descriptive names for the features
 required_features_names <- features[required_features,2]
 required_features_names <- gsub('[-()]', '', required_features_names)
-required_features_names = gsub('-std', 'Std', required_features_names)
-required_features_names = gsub('-mean', 'Mean', required_features_names)
-required_features_names = gsub('^t', 'Time', required_features_names)
-required_features_names = gsub('^f', 'Freq', required_features_names)
+required_features_names <- gsub('-std', 'Std', required_features_names)
+required_features_names <- gsub('-mean', 'Mean', required_features_names)
+required_features_names <- gsub('^t', 'Time', required_features_names)
+required_features_names <- gsub('^f', 'Freq', required_features_names)
 
 
 #to read the X_train data set filtered using the required features 
