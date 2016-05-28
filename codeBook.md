@@ -15,8 +15,8 @@ output: html_document
 
 The run_analysis.R script performs the following task to clean the data:
 
-**Step 1:** Read X_train.txt, Y_train.txt and subject_train.txt from the "./data/train" folder and store them in train, trainActivities and trainSubjects variables respectively.
-Read X_test.txt, Y_test.txt and subject_test.txt from the "./data/test" folder and store them in test, testActivities and testSubjects variables respectively.
+**Step 1:** Read X_train.txt, Y_train.txt and subject_train.txt from the "./data/train" folder and store them in train, train_activities and train_subjects variables respectively.
+Read X_test.txt, Y_test.txt and subject_test.txt from the "./data/test" folder and store them in test, test_activities and test_subjects variables respectively.
 *Few rows and columns of the loaded datasets are shown here.*
 
 ```r
@@ -139,7 +139,7 @@ head(required_features_names)
 ```
 
 **Step 4:** Read the activity_labels.txt and apply descriptive activity names to name the activities in the dataset:
-"walking" "walkingupstairs" "walkingdownstairs" "sitting" "standing" "laying"
+"walking" "walkin_gupstairs" "walking_downstairs" "sitting" "standing" "laying"
 
 Also appropriate labels to the data set with descriptive variable names is applied.
 
