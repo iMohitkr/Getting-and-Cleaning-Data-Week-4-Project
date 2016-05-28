@@ -46,7 +46,7 @@ To **reproduce** the results copy the *run_analysis.R* and *codeBook.Rmd*files i
 
 A codebook is provided to deliver information about the transformations used to clean the data. Variable descriptions are the same as provided in the original dataset.Any change in the variable names is mentioned in the codeBook.md file. Also, how the *run_analysis.R* is working is explained there. Open the following file to view the codebook.
 
-<pre>CodeBook.md</pre>
+<pre>codeBook.md</pre>
 
 Result will be a tidy data set named *AcitivityRecognitionUsingSmartphones.txt* which will be in working directory. Use the following code to read the Tidy data created.
 
