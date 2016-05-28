@@ -40,7 +40,7 @@ All of the data files listed are imported within the R script, cleaned up, merge
 <li>  knitr</li>
 <li>  markdown</li>
 </ul>
-To **reproduce** the results copy the *run_analysis.R* and *codeBook.Rmd*files in your working directory and run the script. Using following code.
+To **reproduce** the results copy the *run_analysis.R* and *CodeBook.Rmd*files in your working directory and run the script. Using following code.
 
 <pre class="r"><code class="r"><span class="identifier"><span class="identifier">source</span></span><span class="paren"><span class="paren">(</span></span><span class="identifier"><span class="identifier">"run_analysis.R"</span></span><span class="paren"><span class="paren"></span></span><span class="paren"><span class="paren">)</span></span></code></pre>
 
